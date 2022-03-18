@@ -303,11 +303,15 @@ Searches in ELEMENT's buffer."
 			     ;; string (though it only seems to check
 			     ;; at BOL).
 			     (let* ((string (gethash item format-table))
-				    (marker (or (get-text-property 0 'org-hd-marker string)
-						(when-let ((pos (next-single-property-change 0 'org-hd-marker string)))
-						  (get-text-property pos 'org-hd-marker string)))))
+				    (marker (or (get-text-property 0 :org-hd-marker string)
+						(when-let ((pos (next-single-property-change 0 :org-hd-marker string)))
+						  (get-text-property pos :org-hd-marker string)))))
+			       ;; I don't understand why Org sometimes
+			       ;; uses one property and sometimes the
+			       ;; other.
 			       (propertize string
-					   'org-hd-marker marker)))
+					   'org-hd-marker marker
+					   'org-marker marker)))
                 (make-fn (&rest args)
                          (apply #'make-taxy-magit-section
                                 :make #'make-fn
